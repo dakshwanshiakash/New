@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Environments
+.env
+*.env
+.env.*
+venv/
+ENV/
+env/
+*.sqlite
+
+# Logs
+*.log
+logs/
+debug.log
+error.log
+
+# Byte-compiled
+*.pickle
+*.pyc
+
+# Cache
+.cache/
+pip-cache/
+__cache__/
+
+# Pyrogram / Kurigram sessions
+*.session
+*.session-journal
+
+# Audio / Downloads / Temp
+downloads/
+raw_files/
+temp/
+cache/
+sessions/
+
+# Build directories
+build/
+dist/
+*.egg-info/
+
+# Editor folders
+.vscode/
+.idea/
+
+# OS Junk
+.DS_Store
+Thumbs.db
+
+# Docker ignore
+docker-data/

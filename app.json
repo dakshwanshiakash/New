@@ -1,0 +1,80 @@
+{
+  "name": "AnanyaMusic",
+  "description": "A Powerful Telegram Music Bot built using Kurigram, PyTgCalls, MongoDB and Python 3.11 (PRO Level).",
+  "repository": "https://github.com/dakshwanshiakashakash/new",
+  "logo": "https://telegra.ph/file/3415dfbg8344fexample.png",
+
+  "keywords": [
+    "Telegram",
+    "MusicBot",
+    "Kurigram",
+    "Pyrogram",
+    "Python",
+    "PyTgCalls",
+    "MongoDB"
+  ],
+
+  "env": {
+    "API_ID": {
+      "description": "Get this from https://my.telegram.org",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Your API HASH",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "Bot token from @BotFather",
+      "required": true
+    },
+    "OWNER_ID": {
+      "description": "Your Telegram User ID",
+      "required": true
+    },
+    "MONGO_DB_URI": {
+      "description": "MongoDB Database URL",
+      "required": true
+    },
+    "LOG_GROUP_ID": {
+      "description": "Log group chat ID (must start with -100)",
+      "required": true
+    },
+    "STRING_SESSION": {
+      "description": "Optional: Kurigram/Pyrogram String Session",
+      "required": false
+    },
+    "SUDO_USERS": {
+      "description": "Sudo user IDs separated by space",
+      "required": false
+    },
+    "DURATION_LIMIT": {
+      "description": "Max song duration",
+      "value": "300",
+      "required": false
+    },
+    "UPSTREAM_REPO": {
+      "description": "Auto-update repo (optional)",
+      "required": false
+    },
+    "UPSTREAM_BRANCH": {
+      "description": "Branch name",
+      "value": "main",
+      "required": false
+    }
+  },
+
+  "buildpacks": [
+    { "url": "heroku/python" },
+    { "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest" },
+    { "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git" }
+  ],
+
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+
+  "stack": "heroku-22"
+}

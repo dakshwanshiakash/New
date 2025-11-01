@@ -1,0 +1,94 @@
+#!/bin/bash
+
+# COLORS
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+purple='\033[0;35m'
+reset='\033[0m'
+
+pprint(){
+    color=$purple
+    [ ! -z "$2" ] && eval "color=\$$2"
+    printf "${color}$1${reset}"
+}
+
+update_packages(){
+    pprint "\nUpdating system packages... "
+    if sudo apt update &>/dev/null; then
+        pprint "DONE ✅\n" green
+    else
+        pprint "FAILED ❌\n" red
+        exit 1
+    fi
+}
+
+install_dependencies(){
+    pprint "\nChecking required packages...\n"
+
+    # pip
+    if ! command -v pip3 &>/dev/null; then
+        pprint "Installing pip3...\n"
+        sudo apt install python3-pip -y &>/dev/null ||
+        (pprint "Failed installing pip3\n" red; exit 1)
+    fi
+
+    # ffmpeg
+    if ! command -v ffmpeg &>/dev/null; then
+        pprint "Installing ffmpeg...\n"
+        sudo apt install ffmpeg -y &>/dev/null ||
+        (pprint "Failed installing ffmpeg\n" red; exit 1)
+    fi
+}
+
+install_node(){
+    if command -v npm &>/dev/null; then return; fi
+    pprint "Installing NodeJS...\n"
+    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &>/dev/null
+    sudo apt install nodejs -y &>/dev/null ||
+    (pprint "NodeJS installation failed\n" red; exit 1)
+}
+
+install_python_requirements(){
+    pprint "\nInstalling Python dependencies...\n"
+    pip3 install -U pip &>/dev/null
+    pip3 install -U -r requirements.txt &>/dev/null ||
+    (pprint "Failed installing Python requirements\n" red; exit 1)
+
+    pprint "Python Dependencies Installed ✅\n" green
+}
+
+create_env(){
+    pprint "\nEnter Bot Details Below:\n\n"
+
+    read -p "API ID: " api_id
+    read -p "API HASH: " api_hash
+    read -p "BOT TOKEN: " bot_token
+    read -p "OWNER ID: " ownerid
+    read -p "MONGO DB URI: " mongo
+    read -p "LOG GROUP ID: " loggroup
+    read -p "STRING SESSION: " string
+
+    echo """API_ID=$api_id
+API_HASH=$api_hash
+BOT_TOKEN=$bot_token
+OWNER_ID=$ownerid
+MONGO_DB_URI=$mongo
+LOG_GROUP_ID=$loggroup
+STRING_SESSION=$string
+""" > .env
+
+    pprint "\n✅ .env file created successfully!\n" green
+}
+
+clear
+pprint "🔮 Welcome to AnanyaMusic Setup Installer\n\n" green
+
+update_packages
+install_dependencies
+install_node
+install_python_requirements
+create_env
+
+pprint "\n✅ Installation Completed Successfully!\n" green
+pprint "👉 Now start the bot with: bash start\n\n"
